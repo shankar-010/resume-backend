@@ -1,6 +1,26 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const sequelize = require('../config/database');
+// const User = require('./user');
+const Resume = require('../models/resume');
+const User = require('../models/user');
+require('dotenv').config();
+
+
+
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: 'postgres',
+    logging: false,
+  }
+);
+
 
 const corsOptions = {
   origin: 'http://localhost:4200',
@@ -14,8 +34,8 @@ app.use(cors(corsOptions));
 // Use body-parser with increased limit
 app.use(express.json({ limit: '10mb' })); 
 
-let resumes = [];
-let users = [];
+// let resumes = [];
+// let users = [];
 
 app.post('/api/resumes', (req, res) => {
   console.log('Received POST request for /api/resumes:', req.body);
